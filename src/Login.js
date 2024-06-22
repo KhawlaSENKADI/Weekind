@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { jwtDecode } from 'jwt-decode'; // Import jwtDecode from jwt-decode
 import logo from './assets/logo.png';
 import './Font.css';
 
@@ -10,16 +11,53 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    console.log('Logging in with', email, password);
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleCancel = () => {
     navigate('/');
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('your-authentication-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+  
+      const { token } = await response.json();
+  
+      // Store token and expiration time in localStorage
+      const { exp } = jwtDecode(token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpiration', exp);
+  
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle login error
+    }
+  };
+
+  const isTokenExpired = () => {
+    const token = localStorage.getItem('token');
+    const tokenExpiration = localStorage.getItem('tokenExpiration');
+    
+    if (!token || !tokenExpiration) {
+      return true; // No token or expiration found
+    }
+  
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  
+    return currentTime > parseInt(tokenExpiration, 10);
   };
 
   return (
@@ -29,9 +67,9 @@ const Login = () => {
       </div>
       <h1 className="text-3xl md:text-4xl font-bold md:mt-16 mb-10">Login</h1>
       <div className="w-full max-w-md">
-      <p className="text-center text-lg md:text-xl font-semibold mb-4 text-gray-800">
-      Good to see you back!
-      </p>
+        <p className="text-center text-lg md:text-xl font-semibold mb-4 text-gray-800">
+          Good to see you back!
+        </p>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
             Email
