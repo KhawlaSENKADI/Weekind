@@ -36,7 +36,7 @@ const AdsSlider = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full overflow-hidden">
       <Slider {...settings}>
         {ads.map((ad) => (
           <div key={ad.id} className="w-full h-full">
