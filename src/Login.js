@@ -18,8 +18,11 @@ const Login = () => {
   const handleCancel = () => {
     navigate('/');
   };
+  const handleLogin = () => {
+    navigate('/Home');
+  };
 
-  const handleLogin = async () => {
+  const handleLogin2 = async () => {
     try {
       const response = await fetch('your-authentication-endpoint', {
         method: 'POST',

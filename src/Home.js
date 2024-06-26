@@ -3,8 +3,7 @@
 import React from 'react';
 import Header from './Header';
 import TopProducts from './TopProducts';
-import TrendingProducts from './TrendingProducts';
-import JustForYou from './JustForYou';
+import ProductShowcase from './ProductShowcase';
 import AdsSlider from './AdsSlider';
 const Home = () => {
   return (
@@ -12,8 +11,7 @@ const Home = () => {
     <Header/>
     <AdsSlider/>
     <TopProducts />
-    <TrendingProducts />
-    <JustForYou />
+    <ProductShowcase />
 
    </>
   );

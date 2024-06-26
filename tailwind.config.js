@@ -9,6 +9,7 @@ module.exports = {
       },
       colors: {
         customPurple: '#004CFF',
+        customRed: '#FC3C4C',
       },
     },
   },
